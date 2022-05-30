@@ -43,25 +43,13 @@ def mergesort(arr):
         merged = merge(merge_left, merge_right)
         return merged
 
-# def foundMismatches(x, y):
-#     if len(x) != len(y):
-#         return True
-#     else:
-#         for i in range(len(x)):
-#             if x[i] != y[i]:
-#                 return True
-#     return False
-
 def main():
     n = random.randint(N_ELEMS_MIN, N_ELEMS_MAX)
     print(f"array will be {n} elements long.")
     db = [random.randint(0, 512) for _ in range(n)]
     sorted_db = mergesort(db)
 
-    if foundMismatches(sorted_db, sorted(db)):
-        print(f"FAIL. Mismatches found between the two arrays.")
-    else:
-        print(f"PASS. No mismatches found between the two arrays.")
+    testForMismatches(sorted_db, sorted(db))
 
 if __name__=='__main__':
     main()
