@@ -1,3 +1,5 @@
+from random import randint
+
 def foundMismatches(x, y):
     if len(x) != len(y):
         return True
@@ -12,3 +14,8 @@ def testForMismatches(x, y):
         print(f"FAIL. Mismatches found between the two arrays.")
     else:
         print(f"PASS. No mismatches found between the two arrays.")
+
+def genRandomIntArray(n_elems_min, n_elems_max):
+    n = randint(n_elems_min, n_elems_max)
+    print(f"array will be {n} elements long.")
+    return [randint(0, 512) for _ in range(n)]
