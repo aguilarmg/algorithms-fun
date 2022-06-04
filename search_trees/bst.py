@@ -71,6 +71,109 @@ class BST:
                 parent.setLeftChild(newNode)
             else:
                 parent.setRightChild(newNode)
+
+    def _search(self, node, val):
+        curr = node
+        while curr:
+            if val == curr.val:
+                return curr
+            elif val < curr.val:
+                curr = curr.left
+            else:
+                curr = curr.right
+        return None
+
+    def search(self, val):
+        return self._search(self.root, val)
+
+    def delete(self, val):
+        """
+        For a key `val`, delete an object with key `val` from the data structure, if one exists.
+        """
+        node = self.search(val)
+        if not node:
+            return
+        # Three cases:
+        # node has 0 children
+        if not node.left and not node.right:
+            # If node has 0 children, just remove it from the tree.
+            p = node.parent
+            if not p:
+                # This would be the case where the tree is literally just one
+                # node and it is the one being removed.
+                self.root = None
+                return
+            if (p.left == node):
+                p.left = None
+            else:
+                p.right = None
+            return
+        
+        # node has 1 child 
+        if (node.left and not node.right) or (not node.left and node.right):
+            child = node.left if node.left else node.right
+            p = node.parent
+            if not p:
+                self.root = child
+                child.parent = None
+                return
+            # Set the child's parent as the removee's parent
+            child.parent = p
+            # Set the parent's child pointers to the removee's child
+            if (node == p.left):
+                p.left = child
+            else:
+                p.right = child
+            return
+
+        # node has 2 children
+
+    def predecessor(self, val):
+        """
+        Get the predecessor of an object `x` with key `val`.
+        If `x` has a left subtree, return the `MAX` of the left subtree.
+        Otherwise, traverse upwards towards the root. If you encounter two
+        consecutive nodes `y` and `z`, where `y` is the right child of `z`, return `z`.
+        """
+        print(f"Looking for the predecessor of {val}")
+        x = self.search(val)
+        if not x:
+            print(f"This is a null node!")
+            return 
+        if x.left:
+            return self._max(x.left)
+        else:
+            curr = x
+            parent = x.parent
+            while parent:
+                if curr == parent.right:
+                    return parent
+                tmp = parent.parent
+                curr = parent
+                parent = tmp
+
+    def successor(self, val):
+        """
+        Get the successor of an object `x` with key `val`.
+        If `x` has a left subtree, return the `MAX` of the left subtree.
+        Otherwise, traverse upwards towards the root. If you encounter two
+        consecutive nodes `y` and `z`, where `y` is the left child of `z`, return `z`.
+        """
+        x = self.search(val)
+        if not x:
+            print(f"This is a null node!")
+            return
+        if x.right:
+            return self._min(x.right)
+        else:
+            curr = x
+            parent = x.parent
+            while parent:
+                if curr == parent.left:
+                    return parent
+                tmp = parent.parent
+                curr = parent
+                parent = tmp
     
     def _outputSorted(self, x):
         if not x:
@@ -116,60 +219,6 @@ class BST:
         """
         return self._max(self.root) 
 
-    def _search(self, node, val):
-        curr = node
-        while curr:
-            if val == curr.val:
-                return curr
-            elif val < curr.val:
-                curr = curr.left
-            else:
-                curr = curr.right
-        return None
-
-    def search(self, val):
-        return self._search(self.root, val)
-
-    def delete(self, val):
-        """
-        For a key `val`, delete an object with key `val` from the data structure, if one exists.
-        """
-        node = self.search(val)
-        if not node:
-            return
-        # Three cases:
-        # node has 0 children
-        if not node.left and not node.right:
-            # If node has 0 children, just remove it from the tree.
-            p = node.parent
-            if not p:
-                # This would be the case where the tree is literally just one
-                # node and it is the one being removed.
-                self.root = None
-                return
-            if (p.left == node):
-                p.left = None
-            else:
-                p.right = None
-            return
-        
-        # node has 1 child 
-        if (node.left and not node.right) or (not node.left and node.right):
-            child = node.left if node.left else node.right
-            p = node.parent
-            if not p:
-                self.root = child
-            # Set the child's parent as the removee's parent
-            child.parent = p
-            # Set the parent's child pointers to the removee's child
-            if (node == p.left):
-                p.left = child
-            else:
-                p.right = child
-            return
-
-        # node has 2 children
-
 def main():
     tree = BST()
     tree.insert(3)
@@ -179,12 +228,16 @@ def main():
     tree.insert(4)
     tree.insert(0)
     tree.outputSorted()
-    print(f"How is the 3 node configured before deleting its child? : {tree.search(3)}")
-    print(f"How is the 4 node configured before deleting its parent?: {tree.search(4)}")
-    tree.delete(5)
-    tree.outputSorted()
-    print(f"How is the 3 node configured after deleting its child?  : {tree.search(3)}")
-    print(f"How is the 4 node configured after deleting its parent? : {tree.search(4)}")
+    print(f"The predecessor of the node with value 3 is: {tree.predecessor(3)}")
+    print(f"The successor of the node with value 3 is  : {tree.successor(3)}")
+    print(f"The predecessor of the node with value 4 is: {tree.predecessor(4)}")
+    print(f"The successor of the node with value 2 is  : {tree.successor(2)}")
+    # print(f"How is the 3 node configured before deleting its child? : {tree.search(3)}")
+    # print(f"How is the 4 node configured before deleting its parent?: {tree.search(4)}")
+    # tree.delete(5)
+    # tree.outputSorted()
+    # print(f"How is the 3 node configured after deleting its child?  : {tree.search(3)}")
+    # print(f"How is the 4 node configured after deleting its parent? : {tree.search(4)}")
 
 
 if __name__=='__main__':
