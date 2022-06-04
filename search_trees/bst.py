@@ -147,14 +147,28 @@ class BST:
                 # node and it is the one being removed.
                 self.root = None
                 return
-            isLeftChild = (p.left == node)
-            if isLeftChild:
+            if (p.left == node):
                 p.left = None
             else:
                 p.right = None
-        # node has 1 child 
-        # node has 2 children
+            return
         
+        # node has 1 child 
+        if (node.left and not node.right) or (not node.left and node.right):
+            child = node.left if node.left else node.right
+            p = node.parent
+            if not p:
+                self.root = child
+            # Set the child's parent as the removee's parent
+            child.parent = p
+            # Set the parent's child pointers to the removee's child
+            if (node == p.left):
+                p.left = child
+            else:
+                p.right = child
+            return
+
+        # node has 2 children
 
 def main():
     tree = BST()
@@ -165,6 +179,12 @@ def main():
     tree.insert(4)
     tree.insert(0)
     tree.outputSorted()
+    print(f"How is the 3 node configured before deleting its child? : {tree.search(3)}")
+    print(f"How is the 4 node configured before deleting its parent?: {tree.search(4)}")
+    tree.delete(5)
+    tree.outputSorted()
+    print(f"How is the 3 node configured after deleting its child?  : {tree.search(3)}")
+    print(f"How is the 4 node configured after deleting its parent? : {tree.search(4)}")
 
 
 if __name__=='__main__':
