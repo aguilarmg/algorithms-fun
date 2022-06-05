@@ -6,6 +6,7 @@ class Node:
         self.parent = parent
         self.left = left
         self.right = right
+        self.size = 1
 
     def setParent(self, p):
         self.parent = p
@@ -15,7 +16,7 @@ class Node:
 
     def setRightChild(self, right):
         self.right = right
-
+    
     def getParent(self):
         return self.parent
         
@@ -29,13 +30,13 @@ class Node:
         parent_val = "None" if not self.parent else self.parent.val
         left_child_v = "None" if not self.left else self.left.val
         right_child_v = "None" if not self.right else self.right.val
-        return f"Value: {self.val}, Parent: {parent_val}, Left Child: {left_child_v}, Right Child: {right_child_v}"
+        return f"Value: {self.val}, Parent: {parent_val}, Left Child: {left_child_v}, Right Child: {right_child_v}, Size: {self.size}"
 
     def __repr__(self):
         parent_val = "None" if not self.parent else self.parent.val
         left_child_v = "None" if not self.left else self.left.val
         right_child_v = "None" if not self.right else self.right.val
-        return f"Value: {self.val}, Parent: {parent_val}, Left Child: {left_child_v}, Right Child: {right_child_v}"
+        return f"Value: {self.val}, Parent: {parent_val}, Left Child: {left_child_v}, Right Child: {right_child_v}, Size: {self.size}"
 
 class BST:
     def __init__(self):
@@ -62,6 +63,7 @@ class BST:
             setLeftChild = False
             while curr:
                 parent = curr
+                curr.size += 1
                 if val <= curr.val:
                     setLeftChild = True
                     curr = curr.left
@@ -260,6 +262,28 @@ class BST:
                     level_str += "N"
                 level_str += " "
             print(f"{level_str}")
+
+    def _select(self, node, i):
+        if node.left:
+            j = node.left.size
+        else:
+            j = 0
+        
+        if i == j+1:
+            return node
+        elif i <= j+1:
+            # Must look in the left subtree
+            return self._select(node.left, i)
+        else:
+            # Must look in the right subtree
+            return self._select(node.right, i-j-1)
+
+    def select(self, i):
+        """
+        Given a number i, between 1 and the number of objects, return a pointer
+        to the object in the data structure with the ith smallest key.
+        """
+        return self._select(self.root, i)
 
 def main():
     tree = BST()
