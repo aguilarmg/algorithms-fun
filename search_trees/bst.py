@@ -43,7 +43,7 @@ class BST:
 
     def insert(self, val):
         """
-        Runtime: O(height(BST))
+        Runtime: O(height)
         """
         newNode = Node(val, None, None, None)
         if not self.root:
@@ -75,6 +75,9 @@ class BST:
                 parent.setRightChild(newNode)
 
     def _search(self, node, val):
+        """
+        Runtime: O(height)
+        """
         curr = node
         while curr:
             if val == curr.val:
@@ -91,6 +94,7 @@ class BST:
     def delete(self, val):
         """
         For a key `val`, delete an object with key `val` from the data structure, if one exists.
+        Runtime: O(height)
         """
         node = self.search(val)
         if not node:
@@ -147,6 +151,8 @@ class BST:
         If `x` has a left subtree, return the `MAX` of the left subtree.
         Otherwise, traverse upwards towards the root. If you encounter two
         consecutive nodes `y` and `z`, where `y` is the right child of `z`, return `z`.
+
+        Runtime: O(height)
         """
         if not x:
             print(f"This is a null node!")
@@ -169,6 +175,8 @@ class BST:
         If `x` has a left subtree, return the `MAX` of the left subtree.
         Otherwise, traverse upwards towards the root. If you encounter two
         consecutive nodes `y` and `z`, where `y` is the left child of `z`, return `z`.
+
+        Runtime: O(height)
         """
         if not x:
             print(f"This is a null node!")
@@ -193,6 +201,9 @@ class BST:
                 + self._outputSorted(x.right))
 
     def outputSorted(self):
+        """
+        Runtime: O(n)
+        """
         ret =  self._outputSorted(self.root)
         print(f"{ret}")
 
@@ -200,6 +211,7 @@ class BST:
         """
         Start at x and traverse the left child pointers until you encounter
         a null left child pointer.
+        Runtime: O(height)
         """
         curr = x
         while curr.left:
@@ -210,6 +222,7 @@ class BST:
         """
         Start at x and traverse the left child pointers until you encounter
         a null left child pointer.
+        Runtime: O(height)
         """
         return self._min(self.root) 
 
