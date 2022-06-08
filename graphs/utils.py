@@ -40,3 +40,13 @@ def maxEdgesGivenNVertices(n):
 def displayGraph(g):
     for v in sorted(g.keys()):
         print(f"{v}: {g[v]}")
+
+def readFile(fname):
+    ret = []
+
+    f = open(fname, 'r') 
+    line = f.readline()
+    while (line):
+        ret.append(line)
+        line = f.readline()
+    return ret
