@@ -41,6 +41,11 @@ def displayGraph(g):
     for v in sorted(g.keys()):
         print(f"{v}: {g[v]}")
 
+def displayWeightedGraph(g):
+    for u in sorted(g.keys()):
+        for v in sorted(g[u].keys()):
+            print(f"{u} -> {v} ({g[u][v]})")
+
 def readFile(fname):
     ret = []
 
