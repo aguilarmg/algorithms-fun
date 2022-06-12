@@ -38,3 +38,45 @@ def bfsCC(graph):
             nCC += 1
             bfs(graph, vertex, explored)
     return nCC
+
+def find(parents, x):
+    if parents[x] == x:
+        return x
+    else:
+        return find(parents, parents[x])
+
+def union(parents, x, y, sizes):
+    if sizes[x] > sizes[y]:
+        parents[y] = x
+        sizes[x] += sizes[y]
+    else:
+        parents[x] = y
+        sizes[y] += sizes[x]
+
+def constructEdges(graph):
+    ret = []
+    for v in graph.keys():
+        for w in graph[v]:
+            if ((w,v) not in ret) and ((v,w) not in ret):
+                ret.append((v,w))
+    return ret
+
+def unionFindCCs(graph):
+    V = graph.keys()
+    parents = defaultdict(int)
+    sizes = defaultdict(int)
+
+    E = constructEdges(graph)
+    
+    # Initialize
+    for v in V:
+        parents[v] = v
+        sizes[v] = 1
+    
+    for e in E:
+        x = find(parents, e[0])
+        y = find(parents, e[1])
+        if x != y:
+            union(parents, x, y, sizes)
+    return len(set(parents.values()))
+
